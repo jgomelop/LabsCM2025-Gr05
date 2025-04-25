@@ -196,7 +196,12 @@ fun BirthDatePicker(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EducationDropdown() {
-    val options = listOf("Opción 1", "Opción 2", "Opción 3")
+    val options = listOf(
+        "Opción 1",
+        "Opción 2",
+        "Opción 3"
+    )
+
     var expanded by remember { mutableStateOf(false) }
     var selectedOptionText by remember { mutableStateOf("") }
 
