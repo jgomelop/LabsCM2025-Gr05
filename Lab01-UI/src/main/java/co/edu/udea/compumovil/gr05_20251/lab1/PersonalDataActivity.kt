@@ -19,12 +19,18 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.Button
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -43,12 +49,13 @@ import co.edu.udea.compumovil.gr05_20251.lab1.ui.theme.Labs20251Gr05Theme
 import java.util.Calendar
 
 const val PERSONAL_DATA_TAG = "PersonalActivity"
+
 class PersonalDataActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val intent = Intent(this, ContactDataActivity::class.java)
-        Log.d(PERSONAL_DATA_TAG,"onCreate PersonalActivity")
+        Log.d(PERSONAL_DATA_TAG, "onCreate PersonalActivity")
         enableEdgeToEdge()
 
         setContent {
@@ -97,7 +104,7 @@ fun PersonalDataForm() {
         )
         GenderSelector(sexo, { sexo = it })
         BirthDatePicker(fechaNacimiento, { fechaNacimiento = it })
-        EducationDropdown(escolaridad, { escolaridad = it })
+        EducationDropdown()
 
     }
 }
@@ -186,37 +193,44 @@ fun BirthDatePicker(
 
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EducationDropdown(
-    selected: String,
-    onSelected: (String) -> Unit
-) {
-    val options = listOf(
-        stringResource(id = R.string.grado_escolaridad_primaria),
-        stringResource(id = R.string.grado_escolaridad_secundaria),
-        stringResource(id = R.string.grado_escolaridad_preparatoria),
-        stringResource(id = R.string.grado_escolaridad_universidad),
-        stringResource(id = R.string.grado_escolaridad_otro)
-    )
+fun EducationDropdown() {
+    val options = listOf("Opción 1", "Opción 2", "Opción 3")
     var expanded by remember { mutableStateOf(false) }
+    var selectedOptionText by remember { mutableStateOf("") }
 
-    Box {
-        OutlinedTextField(
-            value = selected,
+    ExposedDropdownMenuBox(
+        expanded = expanded,
+        onExpandedChange = { expanded = !expanded }
+    ) {
+        // Campo de texto que se comporta como un desplegable
+        TextField(
+            value = selectedOptionText,
             onValueChange = {},
-            label = { Text(
-                text= stringResource(id = R.string.grado_escolaridad_label)
-            ) },
             readOnly = true,
+            label = { Text("Selecciona una opción") },
             trailingIcon = {
-                Icon(Icons.Default.ArrowDropDown, contentDescription = null)
+                ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
             },
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable { expanded = true }
+            modifier = Modifier.menuAnchor() // Muy importante
         )
 
-        //TODO: DropdownMenu
+        // Menú desplegable
+        ExposedDropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            options.forEach { option ->
+                DropdownMenuItem(
+                    text = { Text(option) },
+                    onClick = {
+                        selectedOptionText = option
+                        expanded = false
+                    }
+                )
+            }
+        }
     }
 }
 
