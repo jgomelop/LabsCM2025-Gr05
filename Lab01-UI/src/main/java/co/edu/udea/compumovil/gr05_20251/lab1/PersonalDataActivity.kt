@@ -15,7 +15,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.Button
@@ -40,6 +42,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
@@ -60,7 +63,9 @@ class PersonalDataActivity : ComponentActivity() {
 
         setContent {
             Labs20251Gr05Theme {
-                Column {
+                Column(
+                    modifier = Modifier.verticalScroll(rememberScrollState())
+                ) {
                     PersonalDataForm()
                     Button(onClick = {
                         startActivity(intent)
@@ -104,7 +109,7 @@ fun PersonalDataForm() {
         )
         GenderSelector(sexo, { sexo = it })
         BirthDatePicker(fechaNacimiento, { fechaNacimiento = it })
-        EducationDropdown()
+        EducationDropdown(escolaridad) { escolaridad = it }
 
     }
 }
@@ -195,48 +200,50 @@ fun BirthDatePicker(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EducationDropdown() {
-    val options = listOf(
-        "Opción 1",
-        "Opción 2",
-        "Opción 3"
-    )
-
+fun EducationDropdown(
+    selectedEducation: String,
+    onEducationSelected: (String) -> Unit
+) {
+    val options = stringArrayResource(id = R.array.lista_opciones_escolaridad).toList()
     var expanded by remember { mutableStateOf(false) }
-    var selectedOptionText by remember { mutableStateOf("") }
 
     ExposedDropdownMenuBox(
         expanded = expanded,
         onExpandedChange = { expanded = !expanded }
     ) {
-        // Campo de texto que se comporta como un desplegable
-        TextField(
-            value = selectedOptionText,
-            onValueChange = {},
-            readOnly = true,
-            label = { Text("Selecciona una opción") },
-            trailingIcon = {
-                ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
-            },
-            modifier = Modifier.menuAnchor() // Muy importante
-        )
+        Column {
+            Text(
+                text = stringResource(id = R.string.grado_escolaridad_label)
+            )
+            // Campo de texto que se comporta como un desplegable
+            TextField(
+                value = selectedEducation,
+                onValueChange = onEducationSelected ,
+                readOnly = true,
+                trailingIcon = {
+                    ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
+                },
+                modifier = Modifier.menuAnchor() // Muy importante
+            )
 
-        // Menú desplegable
-        ExposedDropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false }
-        ) {
-            options.forEach { option ->
-                DropdownMenuItem(
-                    text = { Text(option) },
-                    onClick = {
-                        selectedOptionText = option
-                        expanded = false
-                    }
-                )
+            // Menú desplegable
+            ExposedDropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false }
+            ) {
+                options.forEach { option ->
+                    DropdownMenuItem(
+                        text = { Text(option) },
+                        onClick = {
+                            onEducationSelected(option)
+                            expanded = false
+                        }
+                    )
+                }
             }
         }
     }
+
 }
 
 
