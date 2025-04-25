@@ -19,8 +19,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.Button
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
@@ -60,7 +58,10 @@ class PersonalDataActivity : ComponentActivity() {
                     Button(onClick = {
                         startActivity(intent)
                     }) {
-                        Text("Siguiente")
+                        Text(
+                            stringResource(id = R.string.btn_siguiente_label)
+
+                        )
                     }
                 }
 
@@ -73,7 +74,7 @@ class PersonalDataActivity : ComponentActivity() {
 fun PersonalDataForm() {
     var nombres by rememberSaveable { mutableStateOf("") }
     var apellidos by rememberSaveable { mutableStateOf("") }
-    var sexo by rememberSaveable { mutableStateOf("Masculino") }
+    var sexo by rememberSaveable { mutableStateOf("") }
     var fechaNacimiento by rememberSaveable { mutableStateOf("") }
     var escolaridad by rememberSaveable { mutableStateOf("") }
 
@@ -86,8 +87,14 @@ fun PersonalDataForm() {
         FormTitle()
         HorizontalDivider(thickness = 2.dp)
         // TODO: Verificar expresión lambda
-        RequiredTextField("Nombres", nombres, { nombres = it })
-        RequiredTextField("Apellidos", apellidos, { apellidos = it })
+        RequiredTextField(
+            stringResource(id = R.string.nombres_label),
+            nombres, { nombres = it }
+        )
+        RequiredTextField(
+            stringResource(id = R.string.apellidos_label),
+            apellidos, { apellidos = it }
+        )
         GenderSelector(sexo, { sexo = it })
         BirthDatePicker(fechaNacimiento, { fechaNacimiento = it })
         EducationDropdown(escolaridad, { escolaridad = it })
@@ -125,7 +132,11 @@ fun RequiredTextField(
 
 @Composable
 fun GenderSelector(selectedGender: String, onGenderSelected: (String) -> Unit) {
-    val options = listOf("Masculino", "Femenino", "Otro")
+    val options = listOf(
+        stringResource(id = R.string.opcion_genero_masculino),
+        stringResource(id = R.string.opcion_genero_femenino),
+        stringResource(id = R.string.opcion_genero_otro),
+    )
     Column {
         Text(
             stringResource(id = R.string.sexo_label)
@@ -168,6 +179,7 @@ fun BirthDatePicker(
             text = stringResource(id = R.string.fecha_nacimiento_label)
         )
         OutlinedButton(onClick = { datePickerDialog.show() }) {
+            //TODO: trasladar lógica a otro archivo, cuando se migre a ViweModel
             Text(text = if (selectedDate.isEmpty()) "Cambiar" else selectedDate)
         }
     }
