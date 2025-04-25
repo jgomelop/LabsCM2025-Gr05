@@ -98,7 +98,6 @@ fun PersonalDataForm() {
     ) {
         FormTitle()
         HorizontalDivider(thickness = 2.dp)
-        // TODO: Verificar expresión lambda
         RequiredTextField(
             stringResource(id = R.string.nombres_label),
             nombres, { nombres = it }
@@ -144,11 +143,7 @@ fun RequiredTextField(
 
 @Composable
 fun GenderSelector(selectedGender: String, onGenderSelected: (String) -> Unit) {
-    val options = listOf(
-        stringResource(id = R.string.opcion_genero_masculino),
-        stringResource(id = R.string.opcion_genero_femenino),
-        stringResource(id = R.string.opcion_genero_otro),
-    )
+    val options = stringArrayResource(id = R.array.lista_opciones_genero).toList()
     Column {
         Text(
             stringResource(id = R.string.sexo_label)

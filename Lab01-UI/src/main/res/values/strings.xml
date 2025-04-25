@@ -10,9 +10,6 @@
     <string name="sexo_label">"Sexo: "</string>
     <string name="personal_data_titulo">Información Personal</string>
     <string name="btn_siguiente_label">Siguiente</string>
-    <string name="opcion_genero_masculino">Masculino</string>
-    <string name="opcion_genero_femenino">Femenino</string>
-    <string name="opcion_genero_otro">Otro</string>
     <string name="nombres_label">Nombres</string>
     <string name="apellidos_label">Apellidos</string>
 </resources>
