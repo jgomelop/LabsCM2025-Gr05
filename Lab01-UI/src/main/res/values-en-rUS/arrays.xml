@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="lista_opciones_escolaridad">
+        <item>Elementary school</item>
+        <item>Middle school</item>
+        <item>University</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="lista_opciones_genero">
+        <item name="opcion_genero_masculino">Male</item>
+        <item name="opcion_genero_femenino">Female</item>
+        <item name="opcion_genero_otro">Other</item>
+    </string-array>
+</resources>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="grado_escolaridad_label">Level of education</string>
+    <string name="grado_escolaridad_primaria">Elementary school</string>
+    <string name="grado_escolaridad_secundaria">Middle school</string>
+    <string name="grado_escolaridad_preparatoria">High school</string>
+    <string name="grado_escolaridad_universidad">University</string>
+    <string name="grado_escolaridad_otro">Other</string>
+    <string name="fecha_nacimiento_label">Date of birth:</string>
+    <string name="sexo_label">Gender:</string>
+    <string name="personal_data_titulo">Personal Information</string>
+    <string name="btn_siguiente_label">Next</string>
+    <string name="nombres_label">First Name</string>
+    <string name="apellidos_label">Last Name</string>
+</resources>
