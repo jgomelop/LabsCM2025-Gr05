@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">Labs20251-Gr05</string>
     <string name="grado_escolaridad_label">Level of education</string>
-    <string name="grado_escolaridad_primaria">Elementary school</string>
-    <string name="grado_escolaridad_secundaria">Middle school</string>
-    <string name="grado_escolaridad_preparatoria">High school</string>
-    <string name="grado_escolaridad_universidad">University</string>
-    <string name="grado_escolaridad_otro">Other</string>
-    <string name="fecha_nacimiento_label">Date of birth:</string>
+    <string name="fecha_nacimiento_label">Date of birth:*</string>
     <string name="sexo_label">Gender:</string>
     <string name="personal_data_titulo">Personal Information</string>
     <string name="btn_siguiente_label">Next</string>
-    <string name="nombres_label">First Name</string>
-    <string name="apellidos_label">Last Name</string>
+    <string name="nombres_label">First Name*</string>
+    <string name="apellidos_label">Last Name*</string>
+    <string name="telefono_label">Phone*</string>
+    <string name="direccion_label">Address</string>
+    <string name="email_tag">Email*</string>
+    <string name="pais_label">Country*</string>
+    <string name="ciudad_label">City</string>
+    <string name="msg_required_fields_missing">Please complete the required fields</string>
+    <string name="btn_birth_date_default_value">Change</string>
+    <string name="btn_finalizar">Finish</string>
+    <string name="titulo_contacto">Contact info</string>
 </resources>
