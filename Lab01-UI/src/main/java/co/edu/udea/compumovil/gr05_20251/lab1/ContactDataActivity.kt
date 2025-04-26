@@ -15,6 +15,7 @@ class ContactDataActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Labs20251Gr05Theme {
+                ContactDataScreen()
             }
         }
     }
