@@ -11,7 +11,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -37,9 +40,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import java.util.Calendar
 
 @Composable
@@ -50,6 +57,7 @@ fun PersonalDataScreen(modifier : Modifier = Modifier){
     var lastName by rememberSaveable { mutableStateOf("") }
     var selectedGender by rememberSaveable { mutableStateOf("") }
     var birthDate by rememberSaveable { mutableStateOf("") }
+    val btnDatePickerDefaultValue = stringResource(R.string.btn_birth_date_default_value)
     var showDatePicker by remember { mutableStateOf(false) }
     val calendar = Calendar.getInstance()
 //    val educationLevels = listOf("Primaria", "Secundaria", "Técnico", "Tecnólogo", "Universitario", "Posgrado")
@@ -73,6 +81,18 @@ fun PersonalDataScreen(modifier : Modifier = Modifier){
             .padding(16.dp)
             .verticalScroll(rememberScrollState())
     ) {
+        Text(
+            text = msgTitulo,
+            style = TextStyle(
+                fontFamily = FontFamily.Default,
+                fontWeight = FontWeight.Normal,
+                fontSize = 22.sp,
+                lineHeight = 28.sp,
+                letterSpacing = 0.sp
+            ),
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
+
         OutlinedTextField(
             value = firstName,
             onValueChange = { firstName = it },
@@ -122,19 +142,23 @@ fun PersonalDataScreen(modifier : Modifier = Modifier){
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        OutlinedTextField(
-            value = birthDate,
-            onValueChange = {},
-            label = { Text(msgBirthdateLabel)},
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable {
-                    showDatePickerDialog(context) { selectedDate ->
-                        birthDate = selectedDate
-                    }
-                },
-            enabled = false
-        )
+        Row {
+            Text(stringResource(R.string.fecha_nacimiento_label))
+            Spacer(modifier = Modifier.width(12.dp))
+            Button(
+                onClick = {
+                    showDatePickerDialog(context)
+                    { selectedDate -> birthDate = selectedDate }
+                          },
+//                shape = RoundedCornerShape(0.dp) // sharp corners
+            ) {
+                Text(
+                    text = if (birthDate.isEmpty())
+                        stringResource(R.string.btn_birth_date_default_value)
+                    else birthDate
+                )
+            }
+        }
 
         Spacer(modifier = Modifier.height(12.dp))
 
@@ -194,8 +218,8 @@ fun PersonalDataScreen(modifier : Modifier = Modifier){
                 } else {
                     println(msgTitulo)
                     println("$firstName $lastName")
-                    println("$msgSexoLabel: $selectedGender")
-                    println("$msgBirthdateLabel: $birthDate")
+                    println("$msgSexoLabel $selectedGender")
+                    println("$msgBirthdateLabel $birthDate")
                     println("$msgEscolaridadLabel: $selectedEducation")
 
                     // Navegación a ContactDataActivity

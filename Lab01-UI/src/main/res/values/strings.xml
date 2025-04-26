@@ -13,4 +13,7 @@
     <string name="pais_label">País*</string>
     <string name="ciudad_label">Ciudad</string>
     <string name="msg_required_fields_missing">Por favor completa los campos obligatorios</string>
+    <string name="btn_birth_date_default_value">Cambiar</string>
+    <string name="btn_finalizar">Finalizar</string>
+    <string name="titulo_contacto">Información de contacto</string>
 </resources>

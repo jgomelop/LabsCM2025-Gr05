@@ -20,41 +20,57 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringArrayResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun ContactDataScreen(modifier: Modifier = Modifier) {
     val context = LocalContext.current
     val focusManager = LocalFocusManager.current
+
     var phone by rememberSaveable { mutableStateOf("") }
     var address by rememberSaveable { mutableStateOf("") }
     var email by rememberSaveable { mutableStateOf("") }
     var country by rememberSaveable { mutableStateOf("") }
     var city by rememberSaveable { mutableStateOf("") }
 
-    val countryOptions = listOf(
-        "Argentina", "Bolivia", "Brasil", "Chile", "Colombia", "Costa Rica",
-        "Cuba", "Ecuador", "El Salvador", "Guatemala", "Honduras", "México",
-        "Nicaragua", "Panamá", "Paraguay", "Perú", "República Dominicana",
-        "Uruguay", "Venezuela"
-    )
+    val countryOptions = stringArrayResource(R.array.lista_paises).toList()
+    val cityOptions = stringArrayResource(R.array.lista_ciudades).toList()
 
-    val cityOptions = listOf(
-        "Bogotá", "Medellín", "Cali", "Barranquilla", "Cartagena",
-        "Cúcuta", "Bucaramanga", "Pereira", "Manizales", "Santa Marta"
-    )
-
+    val errMsg = stringResource(R.string.msg_required_fields_missing)
+    val tituloContacto = stringResource(R.string.titulo_contacto)
+    val etiquetaTelefono = stringResource(R.string.telefono_label)
+    val etiquetaDireccion = stringResource(R.string.direccion_label)
+    val etiquetaEmail = stringResource(R.string.email_tag)
+    val etiquetaPais = stringResource(R.string.pais_label)
+    val etiquetaCiudad = stringResource(R.string.ciudad_label)
     Column(
         modifier = modifier
             .padding(16.dp)
             .verticalScroll(rememberScrollState())
     ) {
+        Text(
+            text = tituloContacto,
+            style = TextStyle(
+                fontFamily = FontFamily.Default,
+                fontWeight = FontWeight.Normal,
+                fontSize = 22.sp,
+                lineHeight = 28.sp,
+                letterSpacing = 0.sp
+            ),
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
         OutlinedTextField(
             value = phone,
             onValueChange = { phone = it },
-            label = { Text("Teléfono*") },
+            label = { Text(stringResource(R.string.telefono_label)) },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Phone,
                 imeAction = ImeAction.Next
@@ -67,7 +83,7 @@ fun ContactDataScreen(modifier: Modifier = Modifier) {
         OutlinedTextField(
             value = address,
             onValueChange = { address = it },
-            label = { Text("Dirección") },
+            label = { Text(stringResource(R.string.direccion_label)) },
             keyboardOptions = KeyboardOptions(autoCorrect = false),
             modifier = Modifier.fillMaxWidth()
         )
@@ -77,7 +93,7 @@ fun ContactDataScreen(modifier: Modifier = Modifier) {
         OutlinedTextField(
             value = email,
             onValueChange = { email = it },
-            label = { Text("Email*") },
+            label = { Text(stringResource(R.string.email_tag)) },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Email,
                 imeAction = ImeAction.Next
@@ -88,7 +104,7 @@ fun ContactDataScreen(modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.height(8.dp))
 
         AutoCompleteTextField(
-            label = "País*",
+            label = stringResource(R.string.pais_label),
             value = country,
             onValueChange = { country = it },
             options = countryOptions
@@ -97,7 +113,7 @@ fun ContactDataScreen(modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.height(8.dp))
 
         AutoCompleteTextField(
-            label = "Ciudad",
+            label = stringResource(R.string.ciudad_label),
             value = city,
             onValueChange = { city = it },
             options = cityOptions
@@ -107,17 +123,22 @@ fun ContactDataScreen(modifier: Modifier = Modifier) {
 
         Button(onClick = {
             if (phone.isBlank() || email.isBlank() || country.isBlank()) {
-                Toast.makeText(context, "Completa los campos obligatorios", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    errMsg,
+                    Toast.LENGTH_SHORT
+                ).show()
             } else {
-                println("Información de contacto:")
-                println("Teléfono: $phone")
-                println("Dirección: $address")
-                println("Email: $email")
-                println("País: $country")
-                println("Ciudad: $city")
+                println(tituloContacto)
+                println("$etiquetaTelefono $phone")
+                println("$etiquetaDireccion $address")
+                println("$etiquetaEmail $email")
+                println("$etiquetaPais $country")
+                println("$etiquetaCiudad $city")
             }
         }) {
-            Text("Finalizar")
+            Text(stringResource(R.string.btn_finalizar))
         }
     }
 }
+
