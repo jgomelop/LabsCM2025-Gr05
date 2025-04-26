@@ -35,6 +35,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringArrayResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
@@ -46,16 +48,24 @@ fun PersonalDataScreen(modifier : Modifier = Modifier){
     val focusManager = LocalFocusManager.current
     var firstName by rememberSaveable { mutableStateOf("") }
     var lastName by rememberSaveable { mutableStateOf("") }
-    var selectedGender by rememberSaveable { mutableStateOf("Masculino") }
+    var selectedGender by rememberSaveable { mutableStateOf("") }
     var birthDate by rememberSaveable { mutableStateOf("") }
     var showDatePicker by remember { mutableStateOf(false) }
     val calendar = Calendar.getInstance()
-    val educationLevels = listOf("Primaria", "Secundaria", "Técnico", "Tecnólogo", "Universitario", "Posgrado")
-    var selectedEducation by rememberSaveable { mutableStateOf("Seleccionar escolaridad") }
+//    val educationLevels = listOf("Primaria", "Secundaria", "Técnico", "Tecnólogo", "Universitario", "Posgrado")
+    val educationLevels = stringArrayResource(R.array.lista_opciones_escolaridad).toList()
+
+    val genders = stringArrayResource(R.array.lista_opciones_genero).toList()
+    var selectedEducation by rememberSaveable { mutableStateOf("") }
     var isDropdownExpanded by remember { mutableStateOf(false) }
     var expanded by remember { mutableStateOf(false) }
     val dropdownIcon = Icons.Filled.ArrowDropDown
 
+    val msgRequiredFieldsMissing = stringResource(R.string.msg_required_fields_missing)
+    val msgTitulo = stringResource(R.string.personal_data_titulo)
+    val msgSexoLabel = stringResource(R.string.sexo_label)
+    val msgBirthdateLabel = stringResource(R.string.fecha_nacimiento_label)
+    val msgEscolaridadLabel = stringResource(R.string.grado_escolaridad_label)
 
     Column(
         modifier = modifier
@@ -66,7 +76,7 @@ fun PersonalDataScreen(modifier : Modifier = Modifier){
         OutlinedTextField(
             value = firstName,
             onValueChange = { firstName = it },
-            label = { Text("Nombres*") },
+            label = { Text(stringResource(id = R.string.nombres_label)) },
             modifier = Modifier.fillMaxWidth(),
             keyboardOptions = KeyboardOptions(
                 capitalization = KeyboardCapitalization.Words,
@@ -83,7 +93,7 @@ fun PersonalDataScreen(modifier : Modifier = Modifier){
         OutlinedTextField(
             value = lastName,
             onValueChange = { lastName = it },
-            label = { Text("Apellidos*") },
+            label = { Text(stringResource(R.string.apellidos_label))},
             modifier = Modifier.fillMaxWidth(),
             keyboardOptions = KeyboardOptions(
                 capitalization = KeyboardCapitalization.Words,
@@ -94,9 +104,9 @@ fun PersonalDataScreen(modifier : Modifier = Modifier){
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        Text("Sexo")
+        Text(msgSexoLabel)
         Row {
-            listOf("Masculino", "Femenino", "Otro").forEach { gender ->
+            genders.forEach { gender ->
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.padding(end = 16.dp)
@@ -115,7 +125,7 @@ fun PersonalDataScreen(modifier : Modifier = Modifier){
         OutlinedTextField(
             value = birthDate,
             onValueChange = {},
-            label = { Text("Fecha de nacimiento*") },
+            label = { Text(msgBirthdateLabel)},
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable {
@@ -133,7 +143,7 @@ fun PersonalDataScreen(modifier : Modifier = Modifier){
                 value = selectedEducation,
                 onValueChange = {},
                 readOnly = true,
-                label = { Text("Escolaridad") },
+                label = { Text(msgEscolaridadLabel)},
                 trailingIcon = {
                     Icon(
                         imageVector = dropdownIcon,
@@ -157,7 +167,7 @@ fun PersonalDataScreen(modifier : Modifier = Modifier){
                         onClick = {
                             selectedEducation = level
                             isDropdownExpanded = false
-                            Toast.makeText(context, "Seleccionaste: $level", Toast.LENGTH_SHORT).show()
+//                            Toast.makeText(context, "Seleccionaste: $level", Toast.LENGTH_SHORT).show()
                         }
                     )
                 }
@@ -166,33 +176,34 @@ fun PersonalDataScreen(modifier : Modifier = Modifier){
 
         Spacer(modifier = Modifier.height(20.dp))
 
+        // TODO: Eliminar duplicados
         Button(onClick = {
             if (firstName.isBlank() || lastName.isBlank() || birthDate.isBlank()) {
-                Toast.makeText(context, "Por favor completa los campos obligatorios", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, msgRequiredFieldsMissing, Toast.LENGTH_SHORT).show()
             } else {
-                println("Información personal:")
+                println(msgTitulo)
                 println("$firstName $lastName")
-                println("Sexo: $selectedGender")
-                println("Nació el $birthDate")
-                println("Escolaridad: $selectedEducation")
+                println("$msgSexoLabel: $selectedGender")
+                println("$msgBirthdateLabel: $birthDate")
+                println("$msgEscolaridadLabel: $selectedEducation")
             }
         }) {
             Button(onClick = {
                 if (firstName.isBlank() || lastName.isBlank() || birthDate.isBlank()) {
-                    Toast.makeText(context, "Por favor completa los campos obligatorios", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, msgRequiredFieldsMissing, Toast.LENGTH_SHORT).show()
                 } else {
-                    println("Información personal:")
+                    println(msgTitulo)
                     println("$firstName $lastName")
-                    println("Sexo: $selectedGender")
-                    println("Nació el $birthDate")
-                    println("Escolaridad: $selectedEducation")
+                    println("$msgSexoLabel: $selectedGender")
+                    println("$msgBirthdateLabel: $birthDate")
+                    println("$msgEscolaridadLabel: $selectedEducation")
 
                     // Navegación a ContactDataActivity
                     val intent = Intent(context, ContactDataActivity::class.java)
                     context.startActivity(intent)
                 }
             }) {
-                Text("Siguiente")
+                Text(stringResource(R.string.btn_siguiente_label))
             }
         }
     }

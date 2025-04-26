@@ -3,6 +3,7 @@
     <string-array name="lista_opciones_escolaridad">
         <item>Elementary school</item>
         <item>Middle school</item>
+        <item>High school</item>
         <item>University</item>
         <item>Other</item>
     </string-array>
