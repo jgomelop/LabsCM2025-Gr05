@@ -14,10 +14,10 @@
         <item name="opcion_genero_otro">Other</item>
     </string-array>
 
-    <string-array name="lista_paises">
+    <string-array name="paises_latinoamerica">
         <item>Argentina</item>
         <item>Bolivia</item>
-        <item>Brasil</item>
+        <item>Brazil</item>
         <item>Chile</item>
         <item>Colombia</item>
         <item>Costa Rica</item>
@@ -25,18 +25,19 @@
         <item>Ecuador</item>
         <item>El Salvador</item>
         <item>Guatemala</item>
+        <item>Haiti</item>
         <item>Honduras</item>
-        <item>México</item>
+        <item>Mexico</item>
         <item>Nicaragua</item>
-        <item>Panamá</item>
+        <item>Panama</item>
         <item>Paraguay</item>
-        <item>Perú</item>
-        <item>República Dominicana</item>
+        <item>Peru</item>
+        <item>Dominican Republic</item>
         <item>Uruguay</item>
         <item>Venezuela</item>
     </string-array>
 
-    <string-array name="lista_ciudades">
+    <string-array name="ciudades_colombia">
         <item>Bogotá</item>
         <item>Medellín</item>
         <item>Cali</item>
@@ -45,7 +46,20 @@
         <item>Cúcuta</item>
         <item>Bucaramanga</item>
         <item>Pereira</item>
-        <item>Manizales</item>
         <item>Santa Marta</item>
+        <item>Ibagué</item>
+        <item>Pasto</item>
+        <item>Manizales</item>
+        <item>Neiva</item>
+        <item>Villavicencio</item>
+        <item>Armenia</item>
+        <item>Popayán</item>
+        <item>Sincelejo</item>
+        <item>Valledupar</item>
+        <item>Montería</item>
     </string-array>
+
+
+
+
 </resources>

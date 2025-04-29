@@ -41,8 +41,8 @@ fun ContactDataScreen(modifier: Modifier = Modifier) {
     var country by rememberSaveable { mutableStateOf("") }
     var city by rememberSaveable { mutableStateOf("") }
 
-    val countryOptions = stringArrayResource(R.array.lista_paises).toList()
-    val cityOptions = stringArrayResource(R.array.lista_ciudades).toList()
+    val countryOptions = stringArrayResource(R.array.paises_latinoamerica).toList()
+    val cityOptions = stringArrayResource(R.array.ciudades_colombia).toList()
 
     val errMsg = stringResource(R.string.msg_required_fields_missing)
     val tituloContacto = stringResource(R.string.titulo_contacto)
