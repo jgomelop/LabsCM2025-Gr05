@@ -10,8 +10,8 @@ import kotlinx.coroutines.launch
 import java.util.Calendar
 
 class PersonalFormViewModel : ViewModel() {
-    private val _uiState = MutableStateFlow(PersonalFormData())
-    val uiState: StateFlow<PersonalFormData> = _uiState.asStateFlow()
+    private val _uiState = MutableStateFlow(PersonalFormUiState())
+    val uiState: StateFlow<PersonalFormUiState> = _uiState.asStateFlow()
 
     private val _formValido = MutableStateFlow(false)
     val formValido: StateFlow<Boolean> = _formValido.asStateFlow()

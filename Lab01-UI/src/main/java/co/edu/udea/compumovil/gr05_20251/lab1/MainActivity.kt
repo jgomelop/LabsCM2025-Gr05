@@ -24,8 +24,8 @@ class MainActivity : ComponentActivity() {
                 ) {
                     // Aquí es donde llamamos al composable PersonalForm
 //                    val viewModel: PersonalFormViewModel = viewModel()
-//                    PersonalFormScreen(viewModel = viewModel)
-                    ContactFormScreen()
+                    PersonalFormScreen()
+//                    ContactFormScreen()
                 }
             }
         }
