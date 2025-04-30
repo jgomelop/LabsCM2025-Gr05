@@ -10,30 +10,35 @@ import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import co.edu.udea.compumovil.gr05_20251.lab1.ui.personal.PersonalFormUiState
+import androidx.compose.runtime.getValue
 
 @Composable
-fun ContactFormScreen(viewModel: ContactFormViewModel = viewModel()) {
-    val estado = viewModel.uiState
+fun ContactFormScreen(
+    viewModel: ContactFormViewModel = viewModel(),
+    personalFormUiState: PersonalFormUiState
+) {
+    val contactFormUiState = viewModel.uiState
     val paises = stringArrayResource(id = R.array.paises_latinoamerica)
     val ciudades = stringArrayResource(id = R.array.ciudades_colombia)
-
+    
     Column(modifier = Modifier
         .fillMaxSize()
         .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         OutlinedTextField(
-            value = estado.telefono,
+            value = contactFormUiState.telefono,
             onValueChange = viewModel::onTelefonoChanged,
             label = { Text("Teléfono*") },
-            isError = estado.errores.containsKey("telefono"),
+            isError = contactFormUiState.errores.containsKey("telefono"),
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Phone),
             modifier = Modifier.fillMaxWidth()
         )
-        estado.errores["telefono"]?.let { Text(it, color = MaterialTheme.colorScheme.error) }
+        contactFormUiState.errores["telefono"]?.let { Text(it, color = MaterialTheme.colorScheme.error) }
 
         OutlinedTextField(
-            value = estado.direccion,
+            value = contactFormUiState.direccion,
             onValueChange = viewModel::onDireccionChanged,
             label = { Text("Dirección") },
             keyboardOptions = KeyboardOptions(autoCorrectEnabled = false),
@@ -41,29 +46,29 @@ fun ContactFormScreen(viewModel: ContactFormViewModel = viewModel()) {
         )
 
         OutlinedTextField(
-            value = estado.email,
+            value = contactFormUiState.email,
             onValueChange = viewModel::onEmailChanged,
             label = { Text("Email*") },
-            isError = estado.errores.containsKey("email"),
+            isError = contactFormUiState.errores.containsKey("email"),
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
             modifier = Modifier.fillMaxWidth()
         )
-        estado.errores["email"]?.let { Text(it, color = MaterialTheme.colorScheme.error) }
+        contactFormUiState.errores["email"]?.let { Text(it, color = MaterialTheme.colorScheme.error) }
 
         DropdownSelector(
             label = "País*",
             opciones = paises.toList(),
-            seleccion = estado.pais,
+            seleccion = contactFormUiState.pais,
             onSeleccion = viewModel::onPaisChanged,
-            error = estado.errores["pais"]
+            error = contactFormUiState.errores["pais"]
         )
 
         // Solo mostrar el Dropdown de Ciudad si el país seleccionado es "Colombia"
-        if (estado.pais == "Colombia") {
+        if (contactFormUiState.pais == "Colombia") {
             DropdownSelector(
                 label = "Ciudad",
                 opciones = ciudades.toList(),
-                seleccion = estado.ciudad,
+                seleccion = contactFormUiState.ciudad,
                 onSeleccion = viewModel::onCiudadChanged
             )
         }
@@ -73,7 +78,9 @@ fun ContactFormScreen(viewModel: ContactFormViewModel = viewModel()) {
         Button(
             onClick = {
                 if (viewModel.validarFormulario()) {
-                    // Aquí podrías enviar los datos o mostrar un mensaje de éxito
+                    // Accede a ambos estados
+                    println("PersonalForm: $personalFormUiState")
+                    println("ContactForm: $contactFormUiState")
                 }
             },
             modifier = Modifier.fillMaxWidth()

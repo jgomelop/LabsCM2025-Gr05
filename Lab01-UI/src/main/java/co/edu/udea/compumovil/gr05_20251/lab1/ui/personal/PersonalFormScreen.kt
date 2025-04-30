@@ -24,7 +24,8 @@ import java.util.*
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PersonalFormScreen(
-    viewModel: PersonalFormViewModel = viewModel()
+    viewModel: PersonalFormViewModel = viewModel(),
+    onNext: () -> Unit
 ) {
     val formState by viewModel.uiState.collectAsState()
     val esFormularioValido by viewModel.formValido.collectAsState()
@@ -108,7 +109,7 @@ fun PersonalFormScreen(
 
         // Botón de envío
         Button(
-            onClick = { /* Enviar formulario */ },
+            onClick = { onNext() },
             modifier = Modifier.fillMaxWidth(),
             enabled = esFormularioValido
         ) {
