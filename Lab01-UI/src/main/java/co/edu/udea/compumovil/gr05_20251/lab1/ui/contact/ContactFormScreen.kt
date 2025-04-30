@@ -1,189 +1,134 @@
 package co.edu.udea.compumovil.gr05_20251.lab1.ui.contact
 import co.edu.udea.compumovil.gr05_20251.lab1.R
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.*
-import androidx.compose.material3.ExposedDropdownMenuDefaults
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ContactFormScreen(
-    viewModel: ContactFormViewModel = viewModel(),
-    onFormSubmitted: () -> Unit = {}
-) {
-    val paisesList = stringArrayResource(id = R.array.paises_latinoamerica)
-    val ciudadesColombia = stringArrayResource(id = R.array.ciudades_colombia)
+fun ContactFormScreen(viewModel: ContactFormViewModel = viewModel()) {
+    val estado = viewModel.uiState
+    val paises = stringArrayResource(id = R.array.paises_latinoamerica)
+    val ciudades = stringArrayResource(id = R.array.ciudades_colombia)
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-            .verticalScroll(rememberScrollState())
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        Text(
-            text = "Formulario de Contacto",
-            style = MaterialTheme.typography.headlineMedium,
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
-
-        // Campo de Teléfono (obligatorio)
         OutlinedTextField(
-            value = viewModel.uiState.telefono,
-            onValueChange = { viewModel.actualizarTelefono(it) },
-            label = { Text("Teléfono *") },
-            isError = viewModel.uiState.errorTelefono != null,
-            supportingText = {
-                viewModel.uiState.errorTelefono?.let {
-                    Text(it, color = MaterialTheme.colorScheme.error)
-                }
-            },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp)
+            value = estado.telefono,
+            onValueChange = viewModel::onTelefonoChanged,
+            label = { Text("Teléfono*") },
+            isError = estado.errores.containsKey("telefono"),
+            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Phone),
+            modifier = Modifier.fillMaxWidth()
         )
+        estado.errores["telefono"]?.let { Text(it, color = MaterialTheme.colorScheme.error) }
 
-        // Campo de Dirección
         OutlinedTextField(
-            value = viewModel.uiState.direccion,
-            onValueChange = { viewModel.actualizarDireccion(it) },
+            value = estado.direccion,
+            onValueChange = viewModel::onDireccionChanged,
             label = { Text("Dirección") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp)
+            keyboardOptions = KeyboardOptions(autoCorrectEnabled = false),
+            modifier = Modifier.fillMaxWidth()
         )
 
-        // Campo de Email (obligatorio)
         OutlinedTextField(
-            value = viewModel.uiState.email,
-            onValueChange = { viewModel.actualizarEmail(it) },
-            label = { Text("Email *") },
-            isError = viewModel.uiState.errorEmail != null,
-            supportingText = {
-                viewModel.uiState.errorEmail?.let {
-                    Text(it, color = MaterialTheme.colorScheme.error)
-                }
-            },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp)
+            value = estado.email,
+            onValueChange = viewModel::onEmailChanged,
+            label = { Text("Email*") },
+            isError = estado.errores.containsKey("email"),
+            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
+            modifier = Modifier.fillMaxWidth()
+        )
+        estado.errores["email"]?.let { Text(it, color = MaterialTheme.colorScheme.error) }
+
+        DropdownSelector(
+            label = "País*",
+            opciones = paises.toList(),
+            seleccion = estado.pais,
+            onSeleccion = viewModel::onPaisChanged,
+            error = estado.errores["pais"]
         )
 
-        // Campo de País (obligatorio con dropdown)
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp)
-        ) {
-            // Utilizamos ExposedDropdownMenuBox para el país
-            ExposedDropdownMenuBox(
-                expanded = viewModel.expandidoPaises,
-                onExpandedChange = { viewModel.alternarMenuPaises() }
-            ) {
-                OutlinedTextField(
-                    value = viewModel.uiState.paisSeleccionado,
-                    onValueChange = { },
-                    readOnly = true,
-                    label = { Text("País *") },
-                    trailingIcon = {
-                        ExposedDropdownMenuDefaults.TrailingIcon(expanded = viewModel.expandidoPaises)
-                    },
-                    isError = viewModel.uiState.errorPais != null,
-                    supportingText = {
-                        viewModel.uiState.errorPais?.let {
-                            Text(it, color = MaterialTheme.colorScheme.error)
-                        }
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .menuAnchor()
-                )
-
-                ExposedDropdownMenu(
-                    expanded = viewModel.expandidoPaises,
-                    onDismissRequest = { viewModel.alternarMenuPaises() }
-                ) {
-                    paisesList.forEach { pais ->
-                        DropdownMenuItem(
-                            text = { Text(pais) },
-                            onClick = {
-                                viewModel.actualizarPais(pais)
-                            }
-                        )
-                    }
-                }
-            }
+        // Solo mostrar el Dropdown de Ciudad si el país seleccionado es "Colombia"
+        if (estado.pais == "Colombia") {
+            DropdownSelector(
+                label = "Ciudad",
+                opciones = ciudades.toList(),
+                seleccion = estado.ciudad,
+                onSeleccion = viewModel::onCiudadChanged
+            )
         }
 
-        // Campo de Ciudad (con dropdown)
-        if (viewModel.uiState.paisSeleccionado == "Colombia") {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp)
-            ) {
-                ExposedDropdownMenuBox(
-                    expanded = viewModel.expandidoCiudades,
-                    onExpandedChange = { viewModel.alternarMenuCiudades() }
-                ) {
-                    OutlinedTextField(
-                        value = viewModel.uiState.ciudadSeleccionada,
-                        onValueChange = { },
-                        label = { Text("Ciudad") },
-                        readOnly = true,
-                        trailingIcon = {
-                            ExposedDropdownMenuDefaults.TrailingIcon(expanded = viewModel.expandidoCiudades)
-                        },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .menuAnchor()
-                    )
+        Spacer(modifier = Modifier.height(16.dp))
 
-                    ExposedDropdownMenu(
-                        expanded = viewModel.expandidoCiudades,
-                        onDismissRequest = { viewModel.alternarMenuCiudades() }
-                    ) {
-                        ciudadesColombia.forEach { ciudad ->
-                            DropdownMenuItem(
-                                text = { Text(ciudad) },
-                                onClick = {
-                                    viewModel.actualizarCiudad(ciudad)
-                                }
-                            )
-                        }
-                    }
-                }
-            }
-        }
-
-        // Botón para enviar el formulario
         Button(
             onClick = {
-                if (viewModel.enviarFormulario()) {
-                    onFormSubmitted()
+                if (viewModel.validarFormulario()) {
+                    // Aquí podrías enviar los datos o mostrar un mensaje de éxito
                 }
             },
-            enabled = viewModel.uiState.esFormularioValido,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 16.dp)
+            modifier = Modifier.fillMaxWidth()
         ) {
             Text("Enviar")
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DropdownSelector(
+    label: String,
+    opciones: List<String>,
+    seleccion: String,
+    onSeleccion: (String) -> Unit,
+    error: String? = null
+) {
+    var expandido by remember { mutableStateOf(false) }
+
+    Column {
+        ExposedDropdownMenuBox(
+            expanded = expandido,
+            onExpandedChange = { expandido = !expandido }
+        ) {
+            OutlinedTextField(
+                value = seleccion,
+                onValueChange = {},
+                readOnly = true,
+                label = { Text(label) },
+                isError = error != null,
+                trailingIcon = {
+                    ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandido)
+                },
+                modifier = Modifier.menuAnchor().fillMaxWidth()
+            )
+
+            ExposedDropdownMenu(
+                expanded = expandido,
+                onDismissRequest = { expandido = false }
+            ) {
+                opciones.forEach { opcion ->
+                    DropdownMenuItem(
+                        text = { Text(opcion) },
+                        onClick = {
+                            onSeleccion(opcion)
+                            expandido = false
+                        }
+                    )
+                }
+            }
+        }
+
+        error?.let {
+            Text(it, color = MaterialTheme.colorScheme.error)
         }
     }
 }

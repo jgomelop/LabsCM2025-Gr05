@@ -4,10 +4,7 @@ data class ContactUiState(
     val telefono: String = "",
     val direccion: String = "",
     val email: String = "",
-    val paisSeleccionado: String = "",
-    val ciudadSeleccionada: String = "",
-    val errorTelefono: String? = null,
-    val errorEmail: String? = null,
-    val errorPais: String? = null,
-    val esFormularioValido: Boolean = false
+    val pais: String = "",
+    val ciudad: String = "",
+    val errores: Map<String, String> = emptyMap()
 )
