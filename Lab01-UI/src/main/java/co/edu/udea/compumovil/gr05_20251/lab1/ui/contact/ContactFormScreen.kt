@@ -13,10 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import co.edu.udea.compumovil.gr05_20251.lab1.ui.personal.PersonalFormUiState
 import androidx.compose.runtime.getValue
-import co.edu.udea.compumovil.gr05_20251.lab1.ui.personal.PersonalFormScreenLandscape
-import co.edu.udea.compumovil.gr05_20251.lab1.ui.personal.PersonalFormScreenLogTag
-import co.edu.udea.compumovil.gr05_20251.lab1.ui.personal.PersonalFormScreenPortrait
-import co.edu.udea.compumovil.gr05_20251.lab1.ui.personal.PersonalFormViewModel
+import co.edu.udea.compumovil.gr05_20251.lab1.Logger.imprimirInformacionForms
 import co.edu.udea.compumovil.gr05_20251.lab1.ui.utils.isLandscape
 
 
@@ -201,8 +198,7 @@ fun ContactFormScreenLandscape(
             Button(
                 onClick = {
                     if (viewModel.validarFormulario()) {
-                        println("PersonalForm: $personalFormUiState")
-                        println("ContactForm: $contactFormUiState")
+                        imprimirInformacionForms(personalFormUiState, contactFormUiState)
                     }
                 },
                 modifier = Modifier.fillMaxWidth()
