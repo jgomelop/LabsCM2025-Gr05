@@ -2,6 +2,8 @@ package co.edu.udea.compumovil.gr05_20251.lab1.ui.personal
 
 import android.app.DatePickerDialog
 import android.content.Context
+import android.content.res.Configuration
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
@@ -11,6 +13,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.text.input.ImeAction
@@ -21,12 +24,44 @@ import co.edu.udea.compumovil.gr05_20251.lab1.R
 import java.text.SimpleDateFormat
 import java.util.*
 
+const val PersonalFormScreenLogTag = "PersonalScreen"
+
+
+@Composable
+fun isLandscape(): Boolean {
+    val configuration = LocalConfiguration.current
+    return configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PersonalFormScreen(
+    viewModel: PersonalFormViewModel,
+    onNext: () -> Unit
+){
+
+    if (isLandscape()) {
+        Log.d(PersonalFormScreenLogTag,"PersonalScreenLandscape")
+        PersonalFormScreenLandscape(
+            viewModel,
+            onNext
+        )
+    } else {
+        Log.d(PersonalFormScreenLogTag,"PersonalScreenPortrait")
+        PersonalFormScreenPortrait (
+            viewModel,
+            onNext
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun PersonalFormScreenPortrait(
     viewModel: PersonalFormViewModel = viewModel(),
     onNext: () -> Unit
 ) {
+
     val formState by viewModel.uiState.collectAsState()
     val esFormularioValido by viewModel.formValido.collectAsState()
     val context = LocalContext.current
@@ -114,6 +149,111 @@ fun PersonalFormScreen(
             enabled = esFormularioValido
         ) {
             Text("Enviar formulario")
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun PersonalFormScreenLandscape(
+    viewModel: PersonalFormViewModel = viewModel(),
+    onNext: () -> Unit
+) {
+
+    val formState by viewModel.uiState.collectAsState()
+    val esFormularioValido by viewModel.formValido.collectAsState()
+    val context = LocalContext.current
+
+    val opcionesSexo = stringArrayResource(id = R.array.lista_opciones_genero)
+    val opcionesEscolaridad = stringArrayResource(id = R.array.lista_opciones_escolaridad)
+
+    val dateFormatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+
+    Row(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalArrangement = Arrangement.spacedBy(32.dp)
+    ) {
+        // Columna izquierda: Nombres y apellidos
+        Column(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            OutlinedTextField(
+                value = formState.nombres,
+                onValueChange = { viewModel.actualizarNombres(it) },
+                label = { Text("Nombres *") },
+                keyboardOptions = KeyboardOptions(
+                    capitalization = KeyboardCapitalization.Words,
+                    imeAction = ImeAction.Next,
+                    autoCorrect = false
+                ),
+                modifier = Modifier.fillMaxWidth(),
+                isError = formState.nombres.isEmpty()
+            )
+
+            OutlinedTextField(
+                value = formState.apellidos,
+                onValueChange = { viewModel.actualizarApellidos(it) },
+                label = { Text("Apellidos *") },
+                keyboardOptions = KeyboardOptions(
+                    capitalization = KeyboardCapitalization.Words,
+                    imeAction = ImeAction.Next,
+                    autoCorrect = false
+                ),
+                modifier = Modifier.fillMaxWidth(),
+                isError = formState.apellidos.isEmpty()
+            )
+
+            // Campo Fecha de nacimiento
+            FormDatePicker(
+                date = formState.fechaNacimiento,
+                onDateSelected = { viewModel.actualizarFechaNacimiento(it) },
+                context = context,
+                dateFormatter = dateFormatter,
+                isError = formState.fechaNacimiento == null
+            )
+        }
+
+        // Columna derecha: Sexo, Escolaridad, Botón
+        Column(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            Text("Sexo")
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                opcionesSexo.forEach { opcion ->
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        RadioButton(
+                            selected = formState.sexo == opcion,
+                            onClick = { viewModel.actualizarSexo(opcion) }
+                        )
+                        Text(text = opcion)
+                    }
+                }
+            }
+
+            EscolaridadDropdown(
+                selectedOption = formState.gradoEscolaridad,
+                options = opcionesEscolaridad,
+                onOptionSelected = { viewModel.actualizarGradoEscolaridad(it) }
+            )
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            Button(
+                onClick = { onNext() },
+                modifier = Modifier.fillMaxWidth(),
+                enabled = esFormularioValido
+            ) {
+                Text("Enviar formulario")
+            }
         }
     }
 }
