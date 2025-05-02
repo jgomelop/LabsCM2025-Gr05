@@ -1,4 +1,5 @@
 package co.edu.udea.compumovil.gr05_20251.lab1.ui.contact
+import android.util.Log
 import co.edu.udea.compumovil.gr05_20251.lab1.R
 
 import androidx.compose.foundation.layout.*
@@ -12,6 +13,33 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import co.edu.udea.compumovil.gr05_20251.lab1.ui.personal.PersonalFormUiState
 import androidx.compose.runtime.getValue
+import co.edu.udea.compumovil.gr05_20251.lab1.ui.personal.PersonalFormScreenLandscape
+import co.edu.udea.compumovil.gr05_20251.lab1.ui.personal.PersonalFormScreenLogTag
+import co.edu.udea.compumovil.gr05_20251.lab1.ui.personal.PersonalFormScreenPortrait
+import co.edu.udea.compumovil.gr05_20251.lab1.ui.personal.PersonalFormViewModel
+import co.edu.udea.compumovil.gr05_20251.lab1.ui.utils.isLandscape
+
+//@Composable
+//fun ContactFormScreen(
+//    viewModel: PersonalFormViewModel,
+//    onNext: () -> Unit
+//){
+//
+//    if (isLandscape()) {
+//        Log.d(PersonalFormScreenLogTag,"PersonalScreenLandscape")
+//        PersonalFormScreenLandscape(
+//            viewModel,
+//            onNext
+//        )
+//    } else {
+//        Log.d(PersonalFormScreenLogTag,"PersonalScreenPortrait")
+//        PersonalFormScreenPortrait (
+//            viewModel,
+//            onNext
+//        )
+//    }
+//}
+
 
 @Composable
 fun ContactFormScreen(

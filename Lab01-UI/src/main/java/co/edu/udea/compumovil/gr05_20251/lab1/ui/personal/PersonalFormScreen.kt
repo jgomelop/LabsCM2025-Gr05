@@ -21,17 +21,11 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import co.edu.udea.compumovil.gr05_20251.lab1.R
+import co.edu.udea.compumovil.gr05_20251.lab1.ui.utils.isLandscape
 import java.text.SimpleDateFormat
 import java.util.*
-
 const val PersonalFormScreenLogTag = "PersonalScreen"
 
-
-@Composable
-fun isLandscape(): Boolean {
-    val configuration = LocalConfiguration.current
-    return configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
