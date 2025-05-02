@@ -3,6 +3,7 @@
     <string-array name="lista_opciones_escolaridad">
         <item>Primaria</item>
         <item>Secundaria</item>
+        <item>Preparatoria</item>
         <item>Universitaria</item>
         <item>Otro</item>
     </string-array>
@@ -10,5 +11,50 @@
         <item name="opcion_genero_masculino">Masculino</item>
         <item name="opcion_genero_femenino">Femenino</item>
         <item name="opcion_genero_otro">Otro</item>
+    </string-array>
+
+    <string-array name="paises_latinoamerica">
+        <item>Argentina</item>
+        <item>Bolivia</item>
+        <item>Brasil</item>
+        <item>Chile</item>
+        <item>Colombia</item>
+        <item>Costa Rica</item>
+        <item>Cuba</item>
+        <item>Ecuador</item>
+        <item>El Salvador</item>
+        <item>Guatemala</item>
+        <item>Haití</item>
+        <item>Honduras</item>
+        <item>México</item>
+        <item>Nicaragua</item>
+        <item>Panamá</item>
+        <item>Paraguay</item>
+        <item>Perú</item>
+        <item>República Dominicana</item>
+        <item>Uruguay</item>
+        <item>Venezuela</item>
+    </string-array>
+
+    <string-array name="ciudades_colombia">
+        <item>Bogotá</item>
+        <item>Medellín</item>
+        <item>Cali</item>
+        <item>Barranquilla</item>
+        <item>Cartagena</item>
+        <item>Cúcuta</item>
+        <item>Bucaramanga</item>
+        <item>Pereira</item>
+        <item>Santa Marta</item>
+        <item>Ibagué</item>
+        <item>Pasto</item>
+        <item>Manizales</item>
+        <item>Neiva</item>
+        <item>Villavicencio</item>
+        <item>Armenia</item>
+        <item>Popayán</item>
+        <item>Sincelejo</item>
+        <item>Valledupar</item>
+        <item>Montería</item>
     </string-array>
 </resources>
