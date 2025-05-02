@@ -24,8 +24,8 @@ import co.edu.udea.compumovil.gr05_20251.lab1.R
 import co.edu.udea.compumovil.gr05_20251.lab1.ui.utils.isLandscape
 import java.text.SimpleDateFormat
 import java.util.*
-const val PersonalFormScreenLogTag = "PersonalScreen"
 
+const val PersonalFormScreenLogTag = "PersonalScreen"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

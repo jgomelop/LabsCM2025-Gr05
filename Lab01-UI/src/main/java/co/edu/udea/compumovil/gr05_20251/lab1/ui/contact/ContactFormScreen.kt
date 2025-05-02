@@ -19,31 +19,34 @@ import co.edu.udea.compumovil.gr05_20251.lab1.ui.personal.PersonalFormScreenPort
 import co.edu.udea.compumovil.gr05_20251.lab1.ui.personal.PersonalFormViewModel
 import co.edu.udea.compumovil.gr05_20251.lab1.ui.utils.isLandscape
 
-//@Composable
-//fun ContactFormScreen(
-//    viewModel: PersonalFormViewModel,
-//    onNext: () -> Unit
-//){
-//
-//    if (isLandscape()) {
-//        Log.d(PersonalFormScreenLogTag,"PersonalScreenLandscape")
-//        PersonalFormScreenLandscape(
-//            viewModel,
-//            onNext
-//        )
-//    } else {
-//        Log.d(PersonalFormScreenLogTag,"PersonalScreenPortrait")
-//        PersonalFormScreenPortrait (
-//            viewModel,
-//            onNext
-//        )
-//    }
-//}
 
+const val ContactFormScreenLogTag = "ConstactScreen"
 
 @Composable
 fun ContactFormScreen(
-    viewModel: ContactFormViewModel = viewModel(),
+    viewModel: ContactFormViewModel,
+    personalFormUiState: PersonalFormUiState
+){
+
+    if (isLandscape()) {
+        Log.d(ContactFormScreenLogTag,"ContactScreenLandscape")
+        ContactFormScreenLandscape(
+            viewModel,
+            personalFormUiState
+        )
+    } else {
+        Log.d(ContactFormScreenLogTag,"ContactScreenPortrait")
+        ContactFormScreenPortrait (
+            viewModel,
+            personalFormUiState
+        )
+    }
+}
+
+
+@Composable
+fun ContactFormScreenPortrait(
+    viewModel: ContactFormViewModel,
     personalFormUiState: PersonalFormUiState
 ) {
     val contactFormUiState = viewModel.uiState
@@ -117,6 +120,99 @@ fun ContactFormScreen(
         }
     }
 }
+
+@Composable
+fun ContactFormScreenLandscape(
+    viewModel: ContactFormViewModel = viewModel(),
+    personalFormUiState: PersonalFormUiState
+) {
+    val contactFormUiState = viewModel.uiState
+    val paises = stringArrayResource(id = R.array.paises_latinoamerica)
+    val ciudades = stringArrayResource(id = R.array.ciudades_colombia)
+
+    Row(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalArrangement = Arrangement.spacedBy(24.dp)
+    ) {
+        // Columna izquierda: Teléfono, Dirección, Email
+        Column(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            OutlinedTextField(
+                value = contactFormUiState.telefono,
+                onValueChange = viewModel::onTelefonoChanged,
+                label = { Text("Teléfono*") },
+                isError = contactFormUiState.errores.containsKey("telefono"),
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Phone),
+                modifier = Modifier.fillMaxWidth()
+            )
+            contactFormUiState.errores["telefono"]?.let {
+                Text(it, color = MaterialTheme.colorScheme.error)
+            }
+
+            OutlinedTextField(
+                value = contactFormUiState.direccion,
+                onValueChange = viewModel::onDireccionChanged,
+                label = { Text("Dirección") },
+                keyboardOptions = KeyboardOptions(autoCorrectEnabled = false),
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            OutlinedTextField(
+                value = contactFormUiState.email,
+                onValueChange = viewModel::onEmailChanged,
+                label = { Text("Email*") },
+                isError = contactFormUiState.errores.containsKey("email"),
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
+                modifier = Modifier.fillMaxWidth()
+            )
+            contactFormUiState.errores["email"]?.let {
+                Text(it, color = MaterialTheme.colorScheme.error)
+            }
+        }
+
+        // Columna derecha: País, Ciudad (si aplica), Botón
+        Column(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            DropdownSelector(
+                label = "País*",
+                opciones = paises.toList(),
+                seleccion = contactFormUiState.pais,
+                onSeleccion = viewModel::onPaisChanged,
+                error = contactFormUiState.errores["pais"]
+            )
+
+            if (contactFormUiState.pais == "Colombia") {
+                DropdownSelector(
+                    label = "Ciudad",
+                    opciones = ciudades.toList(),
+                    seleccion = contactFormUiState.ciudad,
+                    onSeleccion = viewModel::onCiudadChanged
+                )
+            }
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            Button(
+                onClick = {
+                    if (viewModel.validarFormulario()) {
+                        println("PersonalForm: $personalFormUiState")
+                        println("ContactForm: $contactFormUiState")
+                    }
+                },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Enviar")
+            }
+        }
+    }
+}
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
