@@ -16,7 +16,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
 import co.edu.udea.compumovil.gr05_20251.lab1.Logger.imprimirInformacionForms
 import co.edu.udea.compumovil.gr05_20251.lab1.ui.utils.isLandscape
-
+import androidx.compose.ui.text.style.TextAlign
 
 const val ContactFormScreenLogTag = "ConstactScreen"
 
@@ -56,6 +56,15 @@ fun ContactFormScreenPortrait(
         .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
+        Text(
+            text = "Información de contacto",
+            style = MaterialTheme.typography.headlineSmall,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
+            textAlign = TextAlign.Center
+        )
+
         OutlinedTextField(
             value = contactFormUiState.telefono,
             onValueChange = viewModel::onTelefonoChanged,
@@ -126,88 +135,98 @@ fun ContactFormScreenLandscape(
     val paises = stringArrayResource(id = R.array.paises_latinoamerica)
     val ciudades = stringArrayResource(id = R.array.ciudades_colombia)
 
-    Row(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        horizontalArrangement = Arrangement.spacedBy(24.dp)
-    ) {
-        // Columna izquierda: Teléfono, Dirección, Email
-        Column(
-            modifier = Modifier.weight(1f),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+    Column {
+        Text(
+            text = "Información de contacto",
+            style = MaterialTheme.typography.headlineSmall,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
+            textAlign = TextAlign.Center
+        )
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(24.dp)
         ) {
-            OutlinedTextField(
-                value = contactFormUiState.telefono,
-                onValueChange = viewModel::onTelefonoChanged,
-                label = { Text("Teléfono*") },
-                isError = contactFormUiState.errores.containsKey("telefono"),
-                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Phone),
-                modifier = Modifier.fillMaxWidth()
-            )
-            contactFormUiState.errores["telefono"]?.let {
-                Text(it, color = MaterialTheme.colorScheme.error)
-            }
 
-            OutlinedTextField(
-                value = contactFormUiState.direccion,
-                onValueChange = viewModel::onDireccionChanged,
-                label = { Text("Dirección") },
-                keyboardOptions = KeyboardOptions(autoCorrectEnabled = false),
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            OutlinedTextField(
-                value = contactFormUiState.email,
-                onValueChange = viewModel::onEmailChanged,
-                label = { Text("Email*") },
-                isError = contactFormUiState.errores.containsKey("email"),
-                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
-                modifier = Modifier.fillMaxWidth()
-            )
-            contactFormUiState.errores["email"]?.let {
-                Text(it, color = MaterialTheme.colorScheme.error)
-            }
-        }
-
-        // Columna derecha: País, Ciudad (si aplica), Botón
-        Column(
-            modifier = Modifier.weight(1f),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            DropdownSelector(
-                label = "País*",
-                opciones = paises.toList(),
-                seleccion = contactFormUiState.pais,
-                onSeleccion = viewModel::onPaisChanged,
-                error = contactFormUiState.errores["pais"]
-            )
-
-            if (contactFormUiState.pais == "Colombia") {
-                DropdownSelector(
-                    label = "Ciudad",
-                    opciones = ciudades.toList(),
-                    seleccion = contactFormUiState.ciudad,
-                    onSeleccion = viewModel::onCiudadChanged
-                )
-            }
-
-            Spacer(modifier = Modifier.weight(1f))
-
-            Button(
-                onClick = {
-                    if (viewModel.validarFormulario()) {
-                        imprimirInformacionForms(personalFormUiState, contactFormUiState)
-                    }
-                },
-                modifier = Modifier.fillMaxWidth()
+            // Columna izquierda: Teléfono, Dirección, Email
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                Text("Enviar")
+                OutlinedTextField(
+                    value = contactFormUiState.telefono,
+                    onValueChange = viewModel::onTelefonoChanged,
+                    label = { Text("Teléfono*") },
+                    isError = contactFormUiState.errores.containsKey("telefono"),
+                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Phone),
+                    modifier = Modifier.fillMaxWidth()
+                )
+                contactFormUiState.errores["telefono"]?.let {
+                    Text(it, color = MaterialTheme.colorScheme.error)
+                }
+
+                OutlinedTextField(
+                    value = contactFormUiState.direccion,
+                    onValueChange = viewModel::onDireccionChanged,
+                    label = { Text("Dirección") },
+                    keyboardOptions = KeyboardOptions(autoCorrectEnabled = false),
+                    modifier = Modifier.fillMaxWidth()
+                )
+
+                OutlinedTextField(
+                    value = contactFormUiState.email,
+                    onValueChange = viewModel::onEmailChanged,
+                    label = { Text("Email*") },
+                    isError = contactFormUiState.errores.containsKey("email"),
+                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
+                    modifier = Modifier.fillMaxWidth()
+                )
+                contactFormUiState.errores["email"]?.let {
+                    Text(it, color = MaterialTheme.colorScheme.error)
+                }
+            }
+
+            // Columna derecha: País, Ciudad (si aplica), Botón
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                DropdownSelector(
+                    label = "País*",
+                    opciones = paises.toList(),
+                    seleccion = contactFormUiState.pais,
+                    onSeleccion = viewModel::onPaisChanged,
+                    error = contactFormUiState.errores["pais"]
+                )
+
+                if (contactFormUiState.pais == "Colombia") {
+                    DropdownSelector(
+                        label = "Ciudad",
+                        opciones = ciudades.toList(),
+                        seleccion = contactFormUiState.ciudad,
+                        onSeleccion = viewModel::onCiudadChanged
+                    )
+                }
+
+                Spacer(modifier = Modifier.weight(1f))
+
+                Button(
+                    onClick = {
+                        if (viewModel.validarFormulario()) {
+                            imprimirInformacionForms(personalFormUiState, contactFormUiState)
+                        }
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text("Enviar")
+                }
             }
         }
     }
 }
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
