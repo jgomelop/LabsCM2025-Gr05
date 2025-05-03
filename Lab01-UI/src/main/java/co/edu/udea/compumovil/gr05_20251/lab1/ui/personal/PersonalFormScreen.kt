@@ -72,6 +72,16 @@ fun PersonalFormScreenPortrait(
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
+        // TÍTULO
+        Text(
+            text = stringResource(R.string.titulo_formulario_datos_personales),
+            style = MaterialTheme.typography.headlineSmall,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 8.dp),
+            color = MaterialTheme.colorScheme.primary
+        )
+
         // Campo Nombres
         OutlinedTextField(
             value = formState.nombres,
@@ -174,6 +184,14 @@ fun PersonalFormScreenLandscape(
             modifier = Modifier.weight(1f),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
+            Text(
+                text = stringResource(R.string.titulo_formulario_datos_personales),
+                style = MaterialTheme.typography.headlineSmall,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 8.dp),
+                color = MaterialTheme.colorScheme.primary
+            )
             OutlinedTextField(
                 value = formState.nombres,
                 onValueChange = { viewModel.actualizarNombres(it) },

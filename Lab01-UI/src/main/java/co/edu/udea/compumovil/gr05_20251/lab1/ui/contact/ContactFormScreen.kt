@@ -56,6 +56,14 @@ fun ContactFormScreenPortrait(
         .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
+        Text(
+            text = stringResource(R.string.titulo_formulario_datos_contacto),
+        style = MaterialTheme.typography.headlineSmall,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 8.dp),
+        color = MaterialTheme.colorScheme.primary
+    )
         OutlinedTextField(
             value = contactFormUiState.telefono,
             onValueChange = viewModel::onTelefonoChanged,
@@ -137,6 +145,14 @@ fun ContactFormScreenLandscape(
             modifier = Modifier.weight(1f),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
+            Text(
+            text = stringResource(R.string.titulo_formulario_datos_contacto),
+            style = MaterialTheme.typography.headlineSmall,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 8.dp),
+            color = MaterialTheme.colorScheme.primary
+        )
             OutlinedTextField(
                 value = contactFormUiState.telefono,
                 onValueChange = viewModel::onTelefonoChanged,

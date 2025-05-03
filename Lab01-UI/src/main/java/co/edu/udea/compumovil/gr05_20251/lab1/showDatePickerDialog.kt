@@ -16,13 +16,15 @@ fun showDatePickerDialog(
 
     val datePickerDialog = DatePickerDialog(
         context,
-        { _: DatePicker, selectedYear: Int, selectedMonth: Int, selectedDay: Int ->
-            onDateSelected("$selectedDay/${selectedMonth + 1}/$selectedYear")
+        { _, selectedYear, selectedMonth, selectedDay ->
+            val formattedDate = "$selectedDay/${selectedMonth + 1}/$selectedYear"
+            onDateSelected(formattedDate)
         },
         year,
         month,
         day
     )
 
+    datePickerDialog.datePicker.maxDate = System.currentTimeMillis()
     datePickerDialog.show()
 }
