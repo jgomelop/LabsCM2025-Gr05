@@ -74,7 +74,7 @@ fun PersonalFormScreenPortrait(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         Text(
-            text = "Información Personal",
+            text = stringResource(R.string.personal_data_titulo),
             style = MaterialTheme.typography.headlineSmall,
             modifier = Modifier
                 .fillMaxWidth()
@@ -174,7 +174,7 @@ fun PersonalFormScreenLandscape(
 
     Column {
         Text(
-            text = "Información Personal",
+            text = stringResource(R.string.personal_data_titulo),
             style = MaterialTheme.typography.headlineSmall,
             modifier = Modifier
                 .fillMaxWidth()

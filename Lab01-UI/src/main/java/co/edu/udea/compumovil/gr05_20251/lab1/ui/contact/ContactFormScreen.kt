@@ -57,7 +57,7 @@ fun ContactFormScreenPortrait(
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         Text(
-            text = "Información de contacto",
+            text = stringResource(R.string.titulo_contacto),
             style = MaterialTheme.typography.headlineSmall,
             modifier = Modifier
                 .fillMaxWidth()
@@ -137,7 +137,7 @@ fun ContactFormScreenLandscape(
 
     Column {
         Text(
-            text = "Información de contacto",
+            text = stringResource(R.string.titulo_contacto),
             style = MaterialTheme.typography.headlineSmall,
             modifier = Modifier
                 .fillMaxWidth()
@@ -159,7 +159,7 @@ fun ContactFormScreenLandscape(
                 OutlinedTextField(
                     value = contactFormUiState.telefono,
                     onValueChange = viewModel::onTelefonoChanged,
-                    label = { Text("Teléfono*") },
+                    label = { Text(stringResource(R.string.telefono_label)) },
                     isError = contactFormUiState.errores.containsKey("telefono"),
                     keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Phone),
                     modifier = Modifier.fillMaxWidth()
@@ -171,7 +171,7 @@ fun ContactFormScreenLandscape(
                 OutlinedTextField(
                     value = contactFormUiState.direccion,
                     onValueChange = viewModel::onDireccionChanged,
-                    label = { Text("Dirección") },
+                    label = { Text(stringResource(R.string.direccion_label)) },
                     keyboardOptions = KeyboardOptions(autoCorrectEnabled = false),
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -179,7 +179,7 @@ fun ContactFormScreenLandscape(
                 OutlinedTextField(
                     value = contactFormUiState.email,
                     onValueChange = viewModel::onEmailChanged,
-                    label = { Text("Email*") },
+                    label = { Text(stringResource(R.string.email_tag)) },
                     isError = contactFormUiState.errores.containsKey("email"),
                     keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
                     modifier = Modifier.fillMaxWidth()
@@ -195,7 +195,7 @@ fun ContactFormScreenLandscape(
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 DropdownSelector(
-                    label = "País*",
+                    label = stringResource(R.string.pais_label),
                     opciones = paises.toList(),
                     seleccion = contactFormUiState.pais,
                     onSeleccion = viewModel::onPaisChanged,
@@ -204,7 +204,7 @@ fun ContactFormScreenLandscape(
 
                 if (contactFormUiState.pais == "Colombia") {
                     DropdownSelector(
-                        label = "Ciudad",
+                        label = stringResource(R.string.ciudad_label),
                         opciones = ciudades.toList(),
                         seleccion = contactFormUiState.ciudad,
                         onSeleccion = viewModel::onCiudadChanged
@@ -221,7 +221,7 @@ fun ContactFormScreenLandscape(
                     },
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text("Enviar")
+                    Text(stringResource(R.string.btn_finalizar))
                 }
             }
         }
