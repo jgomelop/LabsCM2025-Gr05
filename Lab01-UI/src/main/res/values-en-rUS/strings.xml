@@ -3,6 +3,7 @@
     <string name="app_name">Labs20251-Gr05</string>
     <string name="grado_escolaridad_label">Level of education</string>
     <string name="fecha_nacimiento_label">Date of birth:*</string>
+    <string name="fecha_nacimiento_texto_datepicker">Select date*</string>
     <string name="sexo_label">Gender:</string>
     <string name="personal_data_titulo">Personal Information</string>
     <string name="btn_siguiente_label">Next</string>

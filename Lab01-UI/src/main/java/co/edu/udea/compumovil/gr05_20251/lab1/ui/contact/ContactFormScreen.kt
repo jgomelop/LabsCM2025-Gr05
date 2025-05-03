@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import co.edu.udea.compumovil.gr05_20251.lab1.ui.personal.PersonalFormUiState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.res.stringResource
 import co.edu.udea.compumovil.gr05_20251.lab1.Logger.imprimirInformacionForms
 import co.edu.udea.compumovil.gr05_20251.lab1.ui.utils.isLandscape
 
@@ -58,7 +59,7 @@ fun ContactFormScreenPortrait(
         OutlinedTextField(
             value = contactFormUiState.telefono,
             onValueChange = viewModel::onTelefonoChanged,
-            label = { Text("Teléfono*") },
+            label = { Text(stringResource(R.string.telefono_label)) },
             isError = contactFormUiState.errores.containsKey("telefono"),
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Phone),
             modifier = Modifier.fillMaxWidth()
@@ -68,7 +69,7 @@ fun ContactFormScreenPortrait(
         OutlinedTextField(
             value = contactFormUiState.direccion,
             onValueChange = viewModel::onDireccionChanged,
-            label = { Text("Dirección") },
+            label = { Text(stringResource(R.string.direccion_label)) },
             keyboardOptions = KeyboardOptions(autoCorrectEnabled = false),
             modifier = Modifier.fillMaxWidth()
         )
@@ -76,7 +77,7 @@ fun ContactFormScreenPortrait(
         OutlinedTextField(
             value = contactFormUiState.email,
             onValueChange = viewModel::onEmailChanged,
-            label = { Text("Email*") },
+            label = { Text(stringResource(R.string.email_tag)) },
             isError = contactFormUiState.errores.containsKey("email"),
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
             modifier = Modifier.fillMaxWidth()
@@ -84,7 +85,7 @@ fun ContactFormScreenPortrait(
         contactFormUiState.errores["email"]?.let { Text(it, color = MaterialTheme.colorScheme.error) }
 
         DropdownSelector(
-            label = "País*",
+            label = stringResource(R.string.pais_label),
             opciones = paises.toList(),
             seleccion = contactFormUiState.pais,
             onSeleccion = viewModel::onPaisChanged,
@@ -94,7 +95,7 @@ fun ContactFormScreenPortrait(
         // Solo mostrar el Dropdown de Ciudad si el país seleccionado es "Colombia"
         if (contactFormUiState.pais == "Colombia") {
             DropdownSelector(
-                label = "Ciudad",
+                label = stringResource(R.string.ciudad_label),
                 opciones = ciudades.toList(),
                 seleccion = contactFormUiState.ciudad,
                 onSeleccion = viewModel::onCiudadChanged
@@ -106,14 +107,12 @@ fun ContactFormScreenPortrait(
         Button(
             onClick = {
                 if (viewModel.validarFormulario()) {
-                    // Accede a ambos estados
-                    println("PersonalForm: $personalFormUiState")
-                    println("ContactForm: $contactFormUiState")
+                    imprimirInformacionForms(personalFormUiState, contactFormUiState)
                 }
             },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Enviar")
+            Text(stringResource(R.string.btn_finalizar))
         }
     }
 }

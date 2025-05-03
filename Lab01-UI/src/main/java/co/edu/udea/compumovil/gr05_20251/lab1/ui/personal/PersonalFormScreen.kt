@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringArrayResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
@@ -75,7 +76,7 @@ fun PersonalFormScreenPortrait(
         OutlinedTextField(
             value = formState.nombres,
             onValueChange = { viewModel.actualizarNombres(it) },
-            label = { Text("Nombres *") },
+            label = { Text(stringResource(R.string.nombres_label))},
             keyboardOptions = KeyboardOptions(
                 capitalization = KeyboardCapitalization.Words,
                 imeAction = ImeAction.Next,
@@ -89,7 +90,7 @@ fun PersonalFormScreenPortrait(
         OutlinedTextField(
             value = formState.apellidos,
             onValueChange = { viewModel.actualizarApellidos(it) },
-            label = { Text("Apellidos *") },
+            label = { Text(stringResource(R.string.apellidos_label)) },
             keyboardOptions = KeyboardOptions(
                 capitalization = KeyboardCapitalization.Words,
                 imeAction = ImeAction.Next,
@@ -99,8 +100,7 @@ fun PersonalFormScreenPortrait(
             isError = formState.apellidos.isEmpty()
         )
 
-        // Campo Sexo (Radio button)
-        Text("Sexo")
+        Text(stringResource(R.string.sexo_label))
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -142,7 +142,7 @@ fun PersonalFormScreenPortrait(
             modifier = Modifier.fillMaxWidth(),
             enabled = esFormularioValido
         ) {
-            Text("Enviar formulario")
+            Text(stringResource(R.string.btn_siguiente_label))
         }
     }
 }
@@ -177,7 +177,7 @@ fun PersonalFormScreenLandscape(
             OutlinedTextField(
                 value = formState.nombres,
                 onValueChange = { viewModel.actualizarNombres(it) },
-                label = { Text("Nombres *") },
+                label = { Text(stringResource(R.string.nombres_label)) },
                 keyboardOptions = KeyboardOptions(
                     capitalization = KeyboardCapitalization.Words,
                     imeAction = ImeAction.Next,
@@ -190,7 +190,7 @@ fun PersonalFormScreenLandscape(
             OutlinedTextField(
                 value = formState.apellidos,
                 onValueChange = { viewModel.actualizarApellidos(it) },
-                label = { Text("Apellidos *") },
+                label = { Text(stringResource(R.string.apellidos_label)) },
                 keyboardOptions = KeyboardOptions(
                     capitalization = KeyboardCapitalization.Words,
                     imeAction = ImeAction.Next,
@@ -246,7 +246,7 @@ fun PersonalFormScreenLandscape(
                 modifier = Modifier.fillMaxWidth(),
                 enabled = esFormularioValido
             ) {
-                Text("Enviar formulario")
+                Text(stringResource(R.string.btn_siguiente_label))
             }
         }
     }
@@ -261,7 +261,8 @@ fun FormDatePicker(
     dateFormatter: SimpleDateFormat,
     isError: Boolean
 ) {
-    val displayText = if (date != null) dateFormatter.format(Date(date)) else "Seleccione fecha *"
+    val datePickerLabel = stringResource(R.string.fecha_nacimiento_texto_datepicker)
+    val displayText = if (date != null) dateFormatter.format(Date(date)) else datePickerLabel
 
     // Configuración para mostrar el DatePicker de Android
     val datePickerDialog = remember {
@@ -283,14 +284,14 @@ fun FormDatePicker(
     OutlinedTextField(
         value = if (date != null) dateFormatter.format(Date(date)) else "",
         onValueChange = { },
-        label = { Text("Fecha de nacimiento *") },
+        label = { Text(stringResource(R.string.fecha_nacimiento_label)) },
         readOnly = true,
         modifier = Modifier
             .fillMaxWidth()
             .clickable { datePickerDialog.show() },
         trailingIcon = {
             IconButton(onClick = { datePickerDialog.show() }) {
-                Icon(Icons.Default.DateRange, contentDescription = "Seleccionar fecha")
+                Icon(Icons.Default.DateRange, contentDescription = datePickerLabel)
             }
         },
         isError = isError
@@ -314,7 +315,7 @@ fun EscolaridadDropdown(
             value = selectedOption,
             onValueChange = { },
             readOnly = true,
-            label = { Text("Grado de escolaridad") },
+            label = { Text(stringResource(R.string.grado_escolaridad_label)) },
             trailingIcon = {
                 ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
             },

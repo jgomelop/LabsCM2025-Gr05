@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">Labs20251-Gr05</string>
     <string name="grado_escolaridad_label">Grado de escolaridad</string>
-    <string name="fecha_nacimiento_label">"Fecha de nacimiento:* "</string>
+    <string name="fecha_nacimiento_label">Fecha de nacimiento:*</string>
+    <string name="fecha_nacimiento_texto_datepicker">Seleccione fecha*</string>
     <string name="sexo_label">"Sexo: "</string>
     <string name="personal_data_titulo">Información Personal</string>
     <string name="btn_siguiente_label">Siguiente</string>
