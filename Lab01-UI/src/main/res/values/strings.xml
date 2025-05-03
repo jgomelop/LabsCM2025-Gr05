@@ -17,4 +17,6 @@
     <string name="btn_birth_date_default_value">Cambiar</string>
     <string name="btn_finalizar">Finalizar</string>
     <string name="titulo_contacto">Información de contacto</string>
+    <string name="titulo_formulario_datos_personales">Formulario de Datos Personales</string>
+    <string name="titulo_formulario_datos_contacto">Formulario de Datos de Contacto</string>
 </resources>

@@ -19,7 +19,6 @@ import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import co.edu.udea.compumovil.gr05_20251.lab1.R
@@ -73,14 +72,16 @@ fun PersonalFormScreenPortrait(
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
+        // TÍTULO
         Text(
-            text = stringResource(R.string.personal_data_titulo),
+            text = stringResource(R.string.titulo_formulario_datos_personales),
             style = MaterialTheme.typography.headlineSmall,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 8.dp),
-            textAlign = TextAlign.Center
+                .padding(bottom = 8.dp),
+            color = MaterialTheme.colorScheme.primary
         )
+
         // Campo Nombres
         OutlinedTextField(
             value = formState.nombres,
@@ -172,106 +173,101 @@ fun PersonalFormScreenLandscape(
 
     val dateFormatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
 
-    Column {
-        Text(
-            text = stringResource(R.string.personal_data_titulo),
-            style = MaterialTheme.typography.headlineSmall,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp),
-            textAlign = TextAlign.Center
-        )
-
-        Row(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            horizontalArrangement = Arrangement.spacedBy(32.dp)
+    Row(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalArrangement = Arrangement.spacedBy(32.dp)
+    ) {
+        // Columna izquierda: Nombres y apellidos
+        Column(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
+            Text(
+                text = stringResource(R.string.titulo_formulario_datos_personales),
+                style = MaterialTheme.typography.headlineSmall,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 8.dp),
+                color = MaterialTheme.colorScheme.primary
+            )
+            OutlinedTextField(
+                value = formState.nombres,
+                onValueChange = { viewModel.actualizarNombres(it) },
+                label = { Text(stringResource(R.string.nombres_label)) },
+                keyboardOptions = KeyboardOptions(
+                    capitalization = KeyboardCapitalization.Words,
+                    imeAction = ImeAction.Next,
+                    autoCorrect = false
+                ),
+                modifier = Modifier.fillMaxWidth(),
+                isError = formState.nombres.isEmpty()
+            )
 
-            // Columna izquierda: Nombres y apellidos
-            Column(
-                modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+            OutlinedTextField(
+                value = formState.apellidos,
+                onValueChange = { viewModel.actualizarApellidos(it) },
+                label = { Text(stringResource(R.string.apellidos_label)) },
+                keyboardOptions = KeyboardOptions(
+                    capitalization = KeyboardCapitalization.Words,
+                    imeAction = ImeAction.Next,
+                    autoCorrect = false
+                ),
+                modifier = Modifier.fillMaxWidth(),
+                isError = formState.apellidos.isEmpty()
+            )
+
+            // Campo Fecha de nacimiento
+            FormDatePicker(
+                date = formState.fechaNacimiento,
+                onDateSelected = { viewModel.actualizarFechaNacimiento(it) },
+                context = context,
+                dateFormatter = dateFormatter,
+                isError = formState.fechaNacimiento == null
+            )
+        }
+
+        // Columna derecha: Sexo, Escolaridad, Botón
+        Column(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            Text(stringResource(R.string.sexo_label))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                OutlinedTextField(
-                    value = formState.nombres,
-                    onValueChange = { viewModel.actualizarNombres(it) },
-                    label = { Text(stringResource(R.string.nombres_label)) },
-                    keyboardOptions = KeyboardOptions(
-                        capitalization = KeyboardCapitalization.Words,
-                        imeAction = ImeAction.Next,
-                        autoCorrect = false
-                    ),
-                    modifier = Modifier.fillMaxWidth(),
-                    isError = formState.nombres.isEmpty()
-                )
-
-                OutlinedTextField(
-                    value = formState.apellidos,
-                    onValueChange = { viewModel.actualizarApellidos(it) },
-                    label = { Text(stringResource(R.string.apellidos_label)) },
-                    keyboardOptions = KeyboardOptions(
-                        capitalization = KeyboardCapitalization.Words,
-                        imeAction = ImeAction.Next,
-                        autoCorrect = false
-                    ),
-                    modifier = Modifier.fillMaxWidth(),
-                    isError = formState.apellidos.isEmpty()
-                )
-
-                // Campo Fecha de nacimiento
-                FormDatePicker(
-                    date = formState.fechaNacimiento,
-                    onDateSelected = { viewModel.actualizarFechaNacimiento(it) },
-                    context = context,
-                    dateFormatter = dateFormatter,
-                    isError = formState.fechaNacimiento == null
-                )
-            }
-
-            // Columna derecha: Sexo, Escolaridad, Botón
-            Column(
-                modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                Text(stringResource(R.string.sexo_label))
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    opcionesSexo.forEach { opcion ->
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            RadioButton(
-                                selected = formState.sexo == opcion,
-                                onClick = { viewModel.actualizarSexo(opcion) }
-                            )
-                            Text(text = opcion)
-                        }
+                opcionesSexo.forEach { opcion ->
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        RadioButton(
+                            selected = formState.sexo == opcion,
+                            onClick = { viewModel.actualizarSexo(opcion) }
+                        )
+                        Text(text = opcion)
                     }
                 }
+            }
 
-                EscolaridadDropdown(
-                    selectedOption = formState.gradoEscolaridad,
-                    options = opcionesEscolaridad,
-                    onOptionSelected = { viewModel.actualizarGradoEscolaridad(it) }
-                )
+            EscolaridadDropdown(
+                selectedOption = formState.gradoEscolaridad,
+                options = opcionesEscolaridad,
+                onOptionSelected = { viewModel.actualizarGradoEscolaridad(it) }
+            )
 
-                Spacer(modifier = Modifier.weight(1f))
+            Spacer(modifier = Modifier.weight(1f))
 
-                Button(
-                    onClick = { onNext() },
-                    modifier = Modifier.fillMaxWidth(),
-                    enabled = esFormularioValido
-                ) {
-                    Text(stringResource(R.string.btn_siguiente_label))
-                }
+            Button(
+                onClick = { onNext() },
+                modifier = Modifier.fillMaxWidth(),
+                enabled = esFormularioValido
+            ) {
+                Text(stringResource(R.string.btn_siguiente_label))
             }
         }
     }
-
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
