@@ -3,6 +3,7 @@
     <string name="app_name">Labs20251-Gr05</string>
     <string name="grado_escolaridad_label">Level of education</string>
     <string name="fecha_nacimiento_label">Date of birth:*</string>
+    <string name="fecha_nacimiento_texto_datepicker">Select date*</string>
     <string name="sexo_label">Gender:</string>
     <string name="personal_data_titulo">Personal Information</string>
     <string name="btn_siguiente_label">Next</string>
@@ -17,4 +18,7 @@
     <string name="btn_birth_date_default_value">Change</string>
     <string name="btn_finalizar">Finish</string>
     <string name="titulo_contacto">Contact info</string>
+    <string name="titulo_formulario_datos_personales">Personal Data Form</string>
+    <string name="titulo_formulario_datos_contacto">Contact Information Form</string>
+
 </resources>
