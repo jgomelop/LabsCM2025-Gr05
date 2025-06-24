@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Labs20251-Gr05</string>
+    <string name="grado_escolaridad_label">Grado de escolaridad</string>
+    <string name="fecha_nacimiento_label">Fecha de nacimiento:*</string>
+    <string name="fecha_nacimiento_texto_datepicker">Seleccione fecha*</string>
+    <string name="sexo_label">"Sexo: "</string>
+    <string name="personal_data_titulo">Información Personal</string>
+    <string name="btn_siguiente_label">Siguiente</string>
+    <string name="nombres_label">Nombres*</string>
+    <string name="apellidos_label">Apellidos*</string>
+    <string name="telefono_label">Teléfono*</string>
+    <string name="direccion_label">Dirección</string>
+    <string name="email_tag">Email*</string>
+    <string name="pais_label">País*</string>
+    <string name="ciudad_label">Ciudad</string>
+    <string name="msg_required_fields_missing">Por favor completa los campos obligatorios</string>
+    <string name="btn_birth_date_default_value">Cambiar</string>
+    <string name="btn_finalizar">Finalizar</string>
+    <string name="titulo_contacto">Información de contacto</string>
+    <string name="titulo_formulario_datos_personales">Formulario de Datos Personales</string>
+    <string name="titulo_formulario_datos_contacto">Formulario de Datos de Contacto</string>
+</resources>
